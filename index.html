@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXIS | The Maison Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --rolex-green: #006039;
+            --rolex-gold: #A37E2C;
+            --off-white: #F8F9F7;
+            --deep-black: #0F110E;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Smooth reveal system - less aggressive clipping, more flow */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* View Switching Logic */
+        .page-view {
+            display: none;
+        }
+
+        .page-view.active {
+            display: block;
+        }
+
+        /* Luxury UI Elements */
+        .btn-gold {
+            background-color: var(--rolex-gold);
+            color: white;
+            transition: all 0.4s ease;
+            border: 1px solid var(--rolex-gold);
+        }
+
+        .btn-gold:hover {
+            background-color: transparent;
+            color: var(--rolex-gold);
+            transform: translateY(-2px);
+        }
+
+        .btn-green {
+            background-color: var(--rolex-green);
+            color: white;
+            transition: all 0.4s ease;
+        }
+
+        .btn-green:hover {
+            background-color: #004d2e;
+            transform: translateY(-2px);
+        }
+
+        /* Image Containers */
+        .img-box {
+            position: relative;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .img-box img {
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(100%);
+        }
+
+        .group:hover .img-box img {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+
+        /* Cart & Sidebar Drawer */
+        #cart-drawer {
+            transition: opacity 0.5s ease;
+        }
+
+        #cart-content {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .cart-hidden #cart-content {
+            transform: translateX(100%);
+        }
+
+        #navbar {
+            transition: all 0.4s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-[#F8F9F7] text-[#1A1A1A] antialiased">
+
+    <!-- Primary Navigation -->
+    <nav id="navbar"
+        class="fixed top-0 w-full z-[100] py-6 px-8 md:px-20 flex justify-between items-center bg-white/90 backdrop-blur-md border-b border-stone-100">
+        <button onclick="navigateTo('home')" class="flex items-center gap-3 group">
+            <div
+                class="w-8 h-8 bg-[#006039] flex items-center justify-center rounded-sm transition-transform group-hover:rotate-90">
+                <span class="text-white font-serif italic text-xs">A</span>
+            </div>
+            <span class="font-serif italic text-xl tracking-widest text-[#006039] hidden md:block">AXIS</span>
+        </button>
+
+        <div class="flex gap-10 md:gap-16 items-center text-[10px] font-bold uppercase tracking-[0.4em]">
+            <button onclick="navigateTo('shop')" class="hover:text-[#A37E2C] transition-colors">Catalog</button>
+            <button onclick="toggleCart(true)" class="relative group flex items-center gap-3">
+                <span class="opacity-40 group-hover:opacity-100 transition-opacity">Bag</span>
+                <span id="cart-count"
+                    class="w-7 h-7 bg-[#006039] text-white flex items-center justify-center font-bold text-[9px] rounded-full shadow-md">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Views -->
+    <div id="home-view" class="page-view active">
+        <!-- Main Stage Hero -->
+        <section class="relative min-h-screen flex items-center pt-20 px-8 md:px-20 overflow-hidden">
+            <div class="max-w-[1800px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <p class="text-[#A37E2C] text-[11px] font-bold uppercase tracking-[0.6em] mb-6 italic">Collection
+                        Preview — 2026</p>
+                    <h1 class="text-6xl md:text-[8vw] font-serif italic text-[#006039] leading-[0.85] mb-12">
+                        Defined<br /><span class="font-sans font-black not-italic text-black">Silhouette</span>
+                    </h1>
+                    <div class="flex gap-8 items-center">
+                        <button onclick="navigateTo('shop')"
+                            class="btn-green px-12 py-5 text-[10px] font-bold uppercase tracking-[0.3em] shadow-xl">
+                            Shop The Collection
+                        </button>
+                        <div class="h-[1px] w-24 bg-stone-200 hidden md:block"></div>
+                        <p class="text-[10px] text-stone-400 font-bold uppercase tracking-widest hidden lg:block">The
+                            New Maison Standard.</p>
+                    </div>
+                </div>
+                <div class="reveal relative h-[500px] lg:h-[700px] w-full">
+                    <div class="img-box h-full w-full shadow-2xl rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2400"
+                            class="w-full h-full object-cover" alt="Elite Fashion">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Preview (Editorial Grid) -->
+        <section class="py-32 px-8 md:px-20 max-w-[1800px] mx-auto">
+            <div class="flex items-end justify-between mb-24 reveal">
+                <div>
+                    <span class="text-[#A37E2C] text-[10px] font-bold uppercase tracking-widest mb-4 block">Selected
+                        Units</span>
+                    <h2 class="text-4xl font-serif italic text-[#006039]">Primary Editions</h2>
+                </div>
+                <button onclick="navigateTo('shop')"
+                    class="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-400 hover:text-[#006039] transition-all">View
+                    All Products →</button>
+            </div>
+
+            <div id="featured-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- Products injected by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Clarity Section -->
+        <section class="py-40 bg-[#006039] text-white">
+            <div class="max-w-4xl mx-auto px-8 text-center reveal">
+                <h3 class="text-4xl font-serif italic mb-8">Uncompromising Standard</h3>
+                <p class="text-white/50 text-sm uppercase tracking-[0.3em] leading-[2.5] font-light max-w-2xl mx-auto">
+                    The AXIS philosophy is rooted in technical permanence. We create for the few who understand that
+                    luxury is not just a label, but a synthesis of form, function, and fabric.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Catalog View -->
+    <div id="shop-view" class="page-view">
+        <section class="pt-48 pb-32 px-8 md:px-20 max-w-[1800px] mx-auto">
+            <div class="mb-24 reveal">
+                <span class="text-[#A37E2C] text-[10px] font-bold uppercase tracking-[0.8em] mb-6 block">Our Complete
+                    Archive</span>
+                <h2 class="text-7xl font-serif italic text-[#006039]">The Collection</h2>
+                <button onclick="navigateTo('home')"
+                    class="text-[10px] uppercase tracking-widest mt-10 opacity-30 hover:opacity-100 transition-opacity">←
+                    Return Home</button>
+            </div>
+            <div id="full-product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- All products injected -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Checkout View -->
+    <div id="checkout-view" class="page-view">
+        <div class="min-h-screen pt-48 pb-24 px-8 max-w-[1200px] mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-20">
+                <div class="lg:col-span-7 reveal">
+                    <h2 class="text-4xl font-serif italic text-[#006039] mb-12">Shipping & Order Link</h2>
+                    <form onsubmit="handleFinalize(event)" class="space-y-10">
+                        <div class="border-b border-stone-200 py-4 focus-within:border-[#006039] transition-colors">
+                            <label
+                                class="text-[9px] font-bold uppercase tracking-[0.5em] text-[#A37E2C] mb-2 block">Recipient
+                                Identifier</label>
+                            <input type="text" required placeholder="Full Name"
+                                class="w-full bg-transparent text-sm font-bold outline-none">
+                        </div>
+                        <div class="border-b border-stone-200 py-4 focus-within:border-[#006039] transition-colors">
+                            <label
+                                class="text-[9px] font-bold uppercase tracking-[0.5em] text-[#A37E2C] mb-2 block">Contact
+                                Email</label>
+                            <input type="email" required placeholder="Email Address"
+                                class="w-full bg-transparent text-sm font-bold outline-none">
+                        </div>
+                        <button type="submit"
+                            class="w-full py-6 btn-green text-[10px] font-bold uppercase tracking-[0.4em] shadow-lg">
+                            Submit Order
+                        </button>
+                        <button type="button" onclick="navigateTo('shop')"
+                            class="w-full text-[9px] font-bold uppercase tracking-widest opacity-30 hover:opacity-100 transition-opacity">Return
+                            to Catalog</button>
+                    </form>
+                </div>
+                <div id="checkout-summary"
+                    class="lg:col-span-5 bg-white p-10 shadow-2xl border border-stone-50 h-fit reveal">
+                    <!-- Order summary injected -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success View -->
+    <div id="success-view" class="page-view">
+        <div class="min-h-screen flex flex-col items-center justify-center text-center p-12 bg-white">
+            <div
+                class="w-24 h-24 bg-[#006039] text-white flex items-center justify-center mb-12 shadow-2xl rounded-full">
+                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="text-6xl font-serif italic text-[#006039] mb-8">Confirmed.</h2>
+            <p class="text-[10px] text-stone-400 uppercase tracking-[0.5em] mb-12 font-bold italic">The sequence has
+                been initiated.</p>
+            <button onclick="navigateTo('home')"
+                class="btn-gold px-12 py-5 text-[10px] font-bold uppercase tracking-[0.4em]">Return to Core</button>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal"
+        class="fixed inset-0 z-[300] hidden opacity-0 items-center justify-center p-4 transition-all duration-500">
+        <div class="absolute inset-0 bg-[#0F110E]/60 backdrop-blur-2xl" onclick="closeProductModal()"></div>
+        <div
+            class="relative w-full max-w-6xl h-full max-h-[85vh] overflow-y-auto grid grid-cols-1 md:grid-cols-2 bg-white shadow-2xl">
+            <button onclick="closeProductModal()"
+                class="absolute top-8 right-8 z-10 text-[#006039] hover:rotate-90 transition-all duration-500">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+            <div id="modal-image" class="bg-stone-50 overflow-hidden"></div>
+            <div class="p-10 md:p-20 flex flex-col justify-center">
+                <p id="modal-category" class="text-[10px] font-bold uppercase tracking-[0.8em] text-[#A37E2C] mb-8"></p>
+                <h2 id="modal-name" class="text-5xl font-serif italic text-[#006039] mb-10 leading-[1]"></h2>
+                <p id="modal-description" class="text-xs text-stone-500 uppercase tracking-[0.1em] leading-loose mb-12">
+                </p>
+
+                <div class="mb-12">
+                    <p class="text-[9px] font-bold uppercase tracking-[0.5em] mb-4 opacity-30">Size Guide Selection</p>
+                    <div class="flex gap-3" id="size-selector">
+                        <button onclick="selectSize('S', this)"
+                            class="size-btn flex-1 py-4 text-[10px] font-bold border border-stone-200 hover:border-[#006039]">S</button>
+                        <button onclick="selectSize('M', this)"
+                            class="size-btn flex-1 py-4 text-[10px] font-bold border border-stone-200 hover:border-[#006039]">M</button>
+                        <button onclick="selectSize('L', this)"
+                            class="size-btn flex-1 py-4 text-[10px] font-bold bg-[#006039] text-white">L</button>
+                    </div>
+                </div>
+
+                <button id="add-to-bag-btn"
+                    class="w-full py-6 btn-gold text-[10px] font-bold uppercase tracking-[0.5em]">
+                    Add to Bag
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Bag Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 z-[200] hidden opacity-0 pointer-events-none">
+        <div class="absolute inset-0 bg-[#0F110E]/10 backdrop-blur-sm" onclick="toggleCart(false)"></div>
+        <div id="cart-content"
+            class="absolute right-0 top-0 w-full max-w-md bg-white h-full p-10 flex flex-col translate-x-full shadow-2xl border-l border-stone-100">
+            <div class="flex justify-between items-center mb-16">
+                <h2 class="text-xs font-bold uppercase tracking-[0.5em] text-[#006039]">Shopping Bag</h2>
+                <button onclick="toggleCart(false)" class="opacity-30 hover:opacity-100"><svg class="w-6 h-6"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" stroke-width="2" />
+                    </svg></button>
+            </div>
+
+            <div id="cart-items" class="flex-1 overflow-y-auto space-y-10 no-scrollbar"></div>
+
+            <div id="cart-footer" class="pt-12 border-t border-stone-100 hidden">
+                <div class="flex justify-between font-black uppercase text-[16px] tracking-tighter mb-8">
+                    <span class="text-stone-300">Bag Total</span>
+                    <span id="cart-subtotal" class="text-[#006039]">$0</span>
+                </div>
+                <button onclick="proceedToCheckout()"
+                    class="w-full py-7 btn-green text-[10px] font-bold uppercase tracking-[0.5em]">
+                    Continue to Checkout
+                </button>
+            </div>
+
+            <div id="cart-empty-msg"
+                class="flex-1 flex items-center justify-center text-[10px] font-bold uppercase tracking-[0.4em] opacity-20">
+                Your bag is empty.</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-32 px-8 md:px-20 border-t border-stone-100 bg-white">
+        <div class="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-16">
+            <div class="md:col-span-6">
+                <h4 class="text-3xl font-serif italic text-[#006039] mb-8 flex items-center gap-3">
+                    <span class="w-6 h-6 bg-[#006039] rounded-sm"></span> AXIS
+                </h4>
+                <p class="text-[10px] text-stone-400 font-bold uppercase tracking-[0.6em] leading-relaxed max-w-xs">
+                    Laboratory of Technical Elegance & High-Prestige Synthesis.</p>
+            </div>
+            <div class="md:col-span-3">
+                <p class="text-[10px] font-bold uppercase tracking-[0.6em] text-[#A37E2C] mb-10">Maison</p>
+                <ul class="text-[10px] font-bold uppercase tracking-[0.4em] space-y-6">
+                    <li><button onclick="navigateTo('shop')" class="hover:text-[#006039]">Full Catalog</button></li>
+                    <li class="hover:text-[#006039] cursor-pointer">Artisanship</li>
+                </ul>
+            </div>
+            <div class="md:col-span-3">
+                <p class="text-[10px] font-bold uppercase tracking-[0.6em] text-[#A37E2C] mb-10">Connect</p>
+                <ul class="text-[10px] font-bold uppercase tracking-[0.4em] space-y-6">
+                    <li class="hover:text-[#006039] cursor-pointer">Instagram</li>
+                    <li class="hover:text-[#006039] cursor-pointer">Inquiries</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const PRODUCTS = [
+            { id: 801, name: "The Gold Archive Shell", category: "Outerwear", price: 1950, image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&q=80&w=800", description: "Bespoke technical silk with gold leaf accents. Features high-pressure sealed seams and modular thermal control panels." },
+            { id: 802, name: "Atelier Cotton Base", category: "Apparel", price: 380, image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&q=80&w=800", description: "Heavyweight 400GSM Giza cotton. Precision cut for a rigid, boxy silhouette that holds its form permanently." },
+            { id: 803, name: "Archive Tapered Pant", category: "Bottoms", price: 820, image: "https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?auto=format&fit=crop&q=80&w=800", description: "Double-faced wool gabardine. Anatomically engineered for freedom of movement. Hidden secure currency compartments." },
+            { id: 804, name: "Slate Merino Knit", category: "Knitwear", price: 640, image: "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?auto=format&fit=crop&q=80&w=800", description: "Extra-fine compressed merino wool architecture. Features integrated high-neck wind protection and climate regulation." },
+            { id: 805, name: "The Prestige Bag", category: "Carry", price: 590, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800", description: "Hand-waxed structural canvas with suede lining. Waterproof closure systems and refined gold-finish hardware." }
+        ];
+
+        let cart = [];
+        let selectedSize = 'L';
+        let currentProduct = null;
+
+        function init() {
+            renderFeatured();
+            renderAllProducts();
+            setupIntersectionObserver();
+            updateCartUI();
+        }
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
+            document.getElementById(pageId + '-view').classList.add('active');
+            window.scrollTo(0, 0);
+            if (pageId === 'checkout') renderCheckoutSummary();
+            setTimeout(setupIntersectionObserver, 100);
+        }
+
+        function renderFeatured() {
+            const grid = document.getElementById('featured-grid');
+            grid.innerHTML = PRODUCTS.slice(0, 3).map(p => productCardHtml(p)).join('');
+        }
+
+        function renderAllProducts() {
+            const grid = document.getElementById('full-product-grid');
+            grid.innerHTML = PRODUCTS.map(p => productCardHtml(p)).join('');
+        }
+
+        function productCardHtml(p) {
+            return `
+                <div class="group cursor-pointer reveal" onclick="openProductModal(${p.id})">
+                    <div class="img-box relative aspect-square shadow-lg border border-stone-50">
+                        <img src="${p.image}" class="w-full h-full object-cover" alt="${p.name}">
+                        <div class="absolute inset-0 bg-[#006039]/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div class="pt-8 flex justify-between items-start">
+                        <div>
+                            <h3 class="text-[13px] font-bold uppercase tracking-widest group-hover:text-[#006039] transition-colors">${p.name}</h3>
+                            <p class="text-[9px] text-[#A37E2C] font-bold uppercase tracking-[0.4em] mt-3 italic">${p.category}</p>
+                        </div>
+                        <p class="text-[12px] font-bold text-[#006039]">$${p.price.toLocaleString()}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openProductModal(id) {
+            currentProduct = PRODUCTS.find(p => p.id === id);
+            selectedSize = 'L';
+            document.getElementById('modal-image').innerHTML = `<img src="${currentProduct.image}" class="w-full h-full object-cover grayscale" />`;
+            document.getElementById('modal-category').innerText = currentProduct.category;
+            document.getElementById('modal-name').innerText = currentProduct.name;
+            document.getElementById('modal-description').innerText = currentProduct.description;
+            document.getElementById('add-to-bag-btn').onclick = () => addToCart(currentProduct, selectedSize);
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+            setTimeout(() => modal.classList.add('opacity-100'), 10);
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.className = 'size-btn flex-1 py-4 text-[11px] font-bold border border-stone-200 hover:border-[#006039]';
+                if (btn.innerText === 'L') btn.className = 'size-btn flex-1 py-4 text-[11px] font-bold bg-[#006039] text-white';
+            });
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('opacity-100');
+            setTimeout(() => { modal.classList.remove('flex'); modal.classList.add('hidden'); }, 500);
+        }
+
+        function selectSize(size, btn) {
+            selectedSize = size;
+            document.querySelectorAll('.size-btn').forEach(b => b.className = 'size-btn flex-1 py-4 text-[11px] font-bold border border-stone-200 hover:border-[#006039]');
+            btn.className = 'size-btn flex-1 py-4 text-[11px] font-bold bg-[#006039] text-white';
+        }
+
+        function addToCart(product, size) {
+            const existing = cart.find(item => item.id === product.id && item.size === size);
+            if (existing) { existing.quantity += 1; } else { cart.push({ ...product, size, quantity: 1 }); }
+            closeProductModal(); updateCartUI(); toggleCart(true);
+        }
+
+        function updateQty(id, size, delta) {
+            const item = cart.find(i => i.id === id && i.size === size);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity < 1) { cart = cart.filter(i => !(i.id === id && i.size === size)); }
+            updateCartUI();
+            if (document.getElementById('checkout-view').classList.contains('active')) renderCheckoutSummary();
+        }
+
+        function toggleCart(show) {
+            const drawer = document.getElementById('cart-drawer');
+            const content = document.getElementById('cart-content');
+            if (show) {
+                drawer.classList.remove('hidden');
+                drawer.classList.remove('pointer-events-none');
+                setTimeout(() => { drawer.classList.add('opacity-100'); content.classList.remove('translate-x-full'); }, 10);
+            } else {
+                drawer.classList.remove('opacity-100');
+                content.classList.add('translate-x-full');
+                setTimeout(() => { drawer.classList.add('hidden'); drawer.classList.add('pointer-events-none'); }, 600);
+            }
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('cart-subtotal').innerText = `$${total.toLocaleString()}`;
+            const container = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                document.getElementById('cart-footer').classList.add('hidden');
+                document.getElementById('cart-empty-msg').classList.remove('hidden');
+                container.innerHTML = '';
+            } else {
+                document.getElementById('cart-footer').classList.remove('hidden');
+                document.getElementById('cart-empty-msg').classList.add('hidden');
+                container.innerHTML = cart.map(item => `
+                    <div class="flex gap-8 items-start border-b border-stone-50 pb-6">
+                        <div class="w-20 h-20 bg-stone-50 overflow-hidden shadow-sm rounded-sm">
+                            <img src="${item.image}" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-[11px] font-bold uppercase tracking-widest text-[#006039]">${item.name}</h3>
+                            <p class="text-[9px] text-[#A37E2C] uppercase tracking-[0.4em] mt-2 italic">Size: ${item.size}</p>
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center gap-6 text-[11px] font-bold">
+                                    <button onclick="updateQty(${item.id}, '${item.size}', -1)" class="hover:text-[#006039] opacity-30 hover:opacity-100 transition-all">-</button>
+                                    <span class="text-[#006039]">${item.quantity}</span>
+                                    <button onclick="updateQty(${item.id}, '${item.size}', 1)" class="hover:text-[#006039] opacity-30 hover:opacity-100 transition-all">+</button>
+                                </div>
+                                <span class="text-[10px] font-bold text-stone-300">$${(item.price * item.quantity).toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderCheckoutSummary() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('checkout-summary').innerHTML = `
+                <h3 class="text-[10px] font-bold uppercase tracking-[0.5em] mb-12 text-[#A37E2C] italic">Order Items</h3>
+                ${cart.map(item => `
+                    <div class="flex justify-between text-[11px] font-bold uppercase tracking-tight mb-8">
+                        <span>${item.name} x${item.quantity}</span>
+                        <span class="text-[#006039] font-black">$${(item.price * item.quantity).toLocaleString()}</span>
+                    </div>
+                `).join('')}
+                <div class="h-[1px] w-full bg-stone-100 my-10"></div>
+                <div class="flex justify-between items-end">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-stone-300">Grand Total</span>
+                    <span class="text-[#006039] font-serif italic text-4xl">$${total.toLocaleString()}</span>
+                </div>
+            `;
+        }
+
+        function proceedToCheckout() { toggleCart(false); navigateTo('checkout'); }
+        function handleFinalize(e) { e.preventDefault(); cart = []; updateCartUI(); navigateTo('success'); }
+
+        function setupIntersectionObserver() {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+        }
+
+        window.onload = init;
+    </script>
+</body>
+
+</html>
